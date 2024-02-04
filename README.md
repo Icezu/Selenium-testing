@@ -1,4 +1,4 @@
-# This repo contains my test for seleninum
+# This repo contains my test for selenium
 
 ## Set up
 
