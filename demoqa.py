@@ -239,16 +239,16 @@ class TestAutomation:
             # Clear text field
             firstName_input.send_keys(Keys.CONTROL + "a")  # Select all text
             firstName_input.send_keys(Keys.DELETE)         # Delete selected text
-            lastName_input.send_keys(Keys.CONTROL + "a")  # Select all text
-            lastName_input.send_keys(Keys.DELETE)         # Delete selected text
-            email_input.send_keys(Keys.CONTROL + "a")  # Select all text
-            email_input.send_keys(Keys.DELETE)         # Delete selected text
-            age_input.send_keys(Keys.CONTROL + "a")  # Select all text
-            age_input.send_keys(Keys.DELETE)         # Delete selected text
-            salary_input.send_keys(Keys.CONTROL + "a")  # Select all text
-            salary_input.send_keys(Keys.DELETE)         # Delete selected text
-            department_input.send_keys(Keys.CONTROL + "a")  # Select all text
-            department_input.send_keys(Keys.DELETE)         # Delete selected text
+            lastName_input.send_keys(Keys.CONTROL + "a")  
+            lastName_input.send_keys(Keys.DELETE)         
+            email_input.send_keys(Keys.CONTROL + "a")  
+            email_input.send_keys(Keys.DELETE)         
+            age_input.send_keys(Keys.CONTROL + "a")  
+            age_input.send_keys(Keys.DELETE)         
+            salary_input.send_keys(Keys.CONTROL + "a")  
+            salary_input.send_keys(Keys.DELETE)        
+            department_input.send_keys(Keys.CONTROL + "a")  
+            department_input.send_keys(Keys.DELETE)         
 
             firstName_input.send_keys(firstName)
             lastName_input.send_keys(lastName)
