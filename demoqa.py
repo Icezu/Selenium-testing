@@ -1,8 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import InvalidElementStateException
+# from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import configparser
 import os
@@ -135,10 +137,73 @@ class TestAutomation:
             box = self.driver.find_element(By.ID, "item-2")
             box.click()  # Prompt the radiobox to appear
 
-            # driver.switch_to.frame(2)
-            radiobox = self.driver.find_element(By.ID, "yesRadio")
-            radiobox.click()
+            radiobox = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "yesRadio"))
+            )
 
+            # Click on the radio button using JavaScript
+            self.driver.execute_script("arguments[0].click();", radiobox)
+
+        finally:
+            self.driver.switch_to.default_content()
+            time.sleep(3)
+            self.navigate_to_website()
+    
+    def test_web_table_add(self, firstName, lastName, email, age, salary, department):
+        try:
+            self.navigate_to_website()
+            self.store_elements()
+
+            if self.elements:
+                first_card = self.elements[0]
+                first_card.click()
+            else:
+                print("no element found") 
+
+            box = self.driver.find_element(By.ID, "item-3")
+            box.click()  # Prompt the radiobox to appear
+
+            add_btn = self.driver.find_element(By.ID, "addNewRecordButton")
+            add_btn.click()
+
+            firstName_input = self.driver.find_element(By.ID, "firstName")
+            lastName_input = self.driver.find_element(By.ID, "lastName")
+            email_input = self.driver.find_element(By.ID, "userEmail")
+            age_input = self.driver.find_element(By.ID, "age")
+            salary_input = self.driver.find_element(By.ID, "salary")
+            department_input = self.driver.find_element(By.ID, "department")
+
+            firstName_input.send_keys(firstName)
+            lastName_input.send_keys(lastName)
+            email_input.send_keys(email)
+            age_input.send_keys(age)
+            salary_input.send_keys(salary)
+            department_input.send_keys(department)
+
+            submit_btn = self.driver.find_element(By.ID, "submit")
+            submit_btn.click()
+        finally:
+            time.sleep(3)
+            self.navigate_to_website()
+
+    def test_web_table_search(self, keyword):
+        try:
+            self.navigate_to_website()
+            self.store_elements()
+
+            if self.elements:
+                first_card = self.elements[0]
+                first_card.click()
+            else:
+                print("no element found") 
+
+            box = self.driver.find_element(By.ID, "item-3")
+            box.click()  # Prompt the radiobox to appear
+
+            search_box = self.driver.find_element(By.ID, "searchBox")
+            search_box.click()
+            search_box.send_keys(keyword)
+            
         finally:
             time.sleep(3)
             self.navigate_to_website()
@@ -151,21 +216,36 @@ if __name__ == "__main__":
     test_automation_instance = TestAutomation()
 
     try:
-        test_automation_instance.test_textbox_input(
-            test_automation_instance.config.get('User', 'username'),
-            test_automation_instance.config.get('User', 'email'),
-            test_automation_instance.config.get('Address', 'current'),
-            test_automation_instance.config.get('Address', 'permanent')
-        )
+        # test_automation_instance.test_textbox_input(
+        #     test_automation_instance.config.get('User', 'username'),
+        #     test_automation_instance.config.get('User', 'email'),
+        #     test_automation_instance.config.get('Address', 'current'),
+        #     test_automation_instance.config.get('Address', 'permanent')
+        # )
 
-        test_automation_instance.test_textbox_input_error(
-            test_automation_instance.config.get('User', 'username'),
-            test_automation_instance.config.get('User', 'fakeemail'),
-            test_automation_instance.config.get('Address', 'current'),
-            test_automation_instance.config.get('Address', 'permanent')
-        )
+        # test_automation_instance.test_textbox_input_error(
+        #     test_automation_instance.config.get('User', 'username'),
+        #     test_automation_instance.config.get('User', 'fakeemail'),
+        #     test_automation_instance.config.get('Address', 'current'),
+        #     test_automation_instance.config.get('Address', 'permanent')
+        # )
 
-        # Add other test methods here
+        # test_automation_instance.test_checkbox()
+
+        # test_automation_instance.test_radio_button()
+
+        # test_automation_instance.test_web_table_add(
+        #     test_automation_instance.config.get('WebTable', 'FirstName'),
+        #     test_automation_instance.config.get('WebTable', 'LastName'),
+        #     test_automation_instance.config.get('WebTable', 'Email'),
+        #     test_automation_instance.config.get('WebTable', 'Age'),
+        #     test_automation_instance.config.get('WebTable', 'Salary'),
+        #     test_automation_instance.config.get('WebTable', 'Department')
+        # )
+
+        # test_automation_instance.test_web_table_search(
+        #     test_automation_instance.config.get('SearchWord', 'keyword')
+        # )
 
     finally:
         test_automation_instance.cleanup()
