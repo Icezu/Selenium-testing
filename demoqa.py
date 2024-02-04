@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -212,6 +212,61 @@ class TestAutomation:
             time.sleep(3)
             self.navigate_to_website()
 
+    def test_web_table_edit_delete(self, firstName, lastName, email, age, salary, department):
+        try:
+            self.navigate_to_website()
+            self.store_elements()
+
+            if self.elements:
+                first_card = self.elements[0]
+                first_card.click()
+            else:
+                print("no element found") 
+
+            box = self.driver.find_element(By.ID, "item-3")
+            box.click()  # Prompt the web table to appear
+
+            edit_btn = self.driver.find_element(By.ID, "edit-record-1")
+            edit_btn.click()
+
+            firstName_input = self.driver.find_element(By.ID, "firstName")
+            lastName_input = self.driver.find_element(By.ID, "lastName")
+            email_input = self.driver.find_element(By.ID, "userEmail")
+            age_input = self.driver.find_element(By.ID, "age")
+            salary_input = self.driver.find_element(By.ID, "salary")
+            department_input = self.driver.find_element(By.ID, "department")
+
+            # Clear text field
+            firstName_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            firstName_input.send_keys(Keys.DELETE)         # Delete selected text
+            lastName_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            lastName_input.send_keys(Keys.DELETE)         # Delete selected text
+            email_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            email_input.send_keys(Keys.DELETE)         # Delete selected text
+            age_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            age_input.send_keys(Keys.DELETE)         # Delete selected text
+            salary_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            salary_input.send_keys(Keys.DELETE)         # Delete selected text
+            department_input.send_keys(Keys.CONTROL + "a")  # Select all text
+            department_input.send_keys(Keys.DELETE)         # Delete selected text
+
+            firstName_input.send_keys(firstName)
+            lastName_input.send_keys(lastName)
+            email_input.send_keys(email)
+            age_input.send_keys(age)
+            salary_input.send_keys(salary)
+            department_input.send_keys(department)
+
+            submit_btn = self.driver.find_element(By.ID, "submit")
+            submit_btn.click()
+
+            delete_btn = self.driver.find_element(By.ID, "delete-record-1")
+            delete_btn.click()
+
+        finally:
+            time.sleep(3)
+            self.navigate_to_website()
+
     def test_web_table_search(self, keyword):
         try:
             self.navigate_to_website()
@@ -302,7 +357,20 @@ if __name__ == "__main__":
         #     test_automation_instance.config.get('WebTable', 'Department')
         # )
 
-        test_automation_instance.test_web_table_next_previous_btn(
+        # test_automation_instance.test_web_table_next_previous_btn(
+        #     test_automation_instance.config.get('WebTable', 'FirstName'),
+        #     test_automation_instance.config.get('WebTable', 'LastName'),
+        #     test_automation_instance.config.get('WebTable', 'Email'),
+        #     test_automation_instance.config.get('WebTable', 'Age'),
+        #     test_automation_instance.config.get('WebTable', 'Salary'),
+        #     test_automation_instance.config.get('WebTable', 'Department')
+        # )
+
+        # test_automation_instance.test_web_table_search(
+        #     test_automation_instance.config.get('SearchWord', 'keyword')
+        # )
+        
+        test_automation_instance.test_web_table_edit_delete(
             test_automation_instance.config.get('WebTable', 'FirstName'),
             test_automation_instance.config.get('WebTable', 'LastName'),
             test_automation_instance.config.get('WebTable', 'Email'),
@@ -311,10 +379,6 @@ if __name__ == "__main__":
             test_automation_instance.config.get('WebTable', 'Department')
         )
 
-        # test_automation_instance.test_web_table_search(
-        #     test_automation_instance.config.get('SearchWord', 'keyword')
-        # )
-        
         # test_automation_instance.test_web_table_row()
 
 
