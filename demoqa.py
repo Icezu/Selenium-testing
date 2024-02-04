@@ -301,13 +301,46 @@ class TestAutomation:
                 print("no element found") 
             
             box = self.driver.find_element(By.ID, "item-3")
-            box.click()  # Prompt the radiobox to appear
+            box.click()  # Prompt the web table to appear
 
             row = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[2]/div/div[2]/span[2]/select')))
             self.driver.execute_script("arguments[0].click();", row)
             five_row = self.driver.find_element(By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/div[2]/div[3]/div[2]/div/div[2]/span[2]/select/option[1]')
             five_row.click()
+
+        finally:
+            time.sleep(5)
+            self.navigate_to_website()
+
+    def test_upload_download(self):
+        try:
+            self.navigate_to_website()
+            self.store_elements()
+
+            if self.elements:
+                first_card = self.elements[0]
+                first_card.click()
+            else:
+                print("no element found") 
+            
+            box = self.driver.find_element(By.ID, "item-7")
+            self.driver.execute_script("arguments[0].scrollIntoView();", box) # Scroll download section into view
+            box.click()  # Prompt the download and upload box to appear
+
+            download_btn = self.driver.find_element(By.ID, "downloadButton")
+            download_btn.click()
+
+            # wait for file to download
+            time.sleep(5)
+
+            # Verify file existance
+            home_directory = os.path.expanduser('~') # Get the users home directory
+            download_path = os.path.join(home_directory, "Downloads")
+            assert os.path.exists(download_path), "File was not downloaded successfully"
+
+            upload_input = self.driver.find_element(By.ID, "uploadFile")
+            upload_input.send_keys(download_path)
 
         finally:
             time.sleep(5)
@@ -321,54 +354,54 @@ if __name__ == "__main__":
     test_automation_instance = TestAutomation()
 
     try:
-        # test_automation_instance.test_textbox_input(
-        #     test_automation_instance.config.get('User', 'username'),
-        #     test_automation_instance.config.get('User', 'email'),
-        #     test_automation_instance.config.get('Address', 'current'),
-        #     test_automation_instance.config.get('Address', 'permanent')
-        # )
+        test_automation_instance.test_textbox_input(
+            test_automation_instance.config.get('User', 'username'),
+            test_automation_instance.config.get('User', 'email'),
+            test_automation_instance.config.get('Address', 'current'),
+            test_automation_instance.config.get('Address', 'permanent')
+        )
 
-        # test_automation_instance.test_textbox_input(
-        #     test_automation_instance.config.get('User', 'username'),
-        #     test_automation_instance.config.get('User', 'fakeemail'),
-        #     test_automation_instance.config.get('Address', 'current'),
-        #     test_automation_instance.config.get('Address', 'permanent')
-        # )
+        test_automation_instance.test_textbox_input(
+            test_automation_instance.config.get('User', 'username'),
+            test_automation_instance.config.get('User', 'fakeemail'),
+            test_automation_instance.config.get('Address', 'current'),
+            test_automation_instance.config.get('Address', 'permanent')
+        )
 
-        # test_automation_instance.test_checkbox()
+        test_automation_instance.test_checkbox()
 
-        # test_automation_instance.test_radio_button()
+        test_automation_instance.test_radio_button()
 
-        # test_automation_instance.test_web_table_add(
-        #     test_automation_instance.config.get('WebTable', 'FirstName'),
-        #     test_automation_instance.config.get('WebTable', 'LastName'),
-        #     test_automation_instance.config.get('WebTable', 'Email'),
-        #     test_automation_instance.config.get('WebTable', 'Age'),
-        #     test_automation_instance.config.get('WebTable', 'Salary'),
-        #     test_automation_instance.config.get('WebTable', 'Department')
-        # )
+        test_automation_instance.test_web_table_add(
+            test_automation_instance.config.get('WebTable', 'FirstName'),
+            test_automation_instance.config.get('WebTable', 'LastName'),
+            test_automation_instance.config.get('WebTable', 'Email'),
+            test_automation_instance.config.get('WebTable', 'Age'),
+            test_automation_instance.config.get('WebTable', 'Salary'),
+            test_automation_instance.config.get('WebTable', 'Department')
+        )
 
-        # test_automation_instance.test_web_table_add(
-        #     test_automation_instance.config.get('WebTable', 'FirstName'),
-        #     test_automation_instance.config.get('WebTable', 'LastName'),
-        #     test_automation_instance.config.get('WebTable', 'FakeEmail'),
-        #     test_automation_instance.config.get('WebTable', 'FakeAge'),
-        #     test_automation_instance.config.get('WebTable', 'FakeSalary'),
-        #     test_automation_instance.config.get('WebTable', 'Department')
-        # )
+        test_automation_instance.test_web_table_add(
+            test_automation_instance.config.get('WebTable', 'FirstName'),
+            test_automation_instance.config.get('WebTable', 'LastName'),
+            test_automation_instance.config.get('WebTable', 'FakeEmail'),
+            test_automation_instance.config.get('WebTable', 'FakeAge'),
+            test_automation_instance.config.get('WebTable', 'FakeSalary'),
+            test_automation_instance.config.get('WebTable', 'Department')
+        )
 
-        # test_automation_instance.test_web_table_next_previous_btn(
-        #     test_automation_instance.config.get('WebTable', 'FirstName'),
-        #     test_automation_instance.config.get('WebTable', 'LastName'),
-        #     test_automation_instance.config.get('WebTable', 'Email'),
-        #     test_automation_instance.config.get('WebTable', 'Age'),
-        #     test_automation_instance.config.get('WebTable', 'Salary'),
-        #     test_automation_instance.config.get('WebTable', 'Department')
-        # )
+        test_automation_instance.test_web_table_next_previous_btn(
+            test_automation_instance.config.get('WebTable', 'FirstName'),
+            test_automation_instance.config.get('WebTable', 'LastName'),
+            test_automation_instance.config.get('WebTable', 'Email'),
+            test_automation_instance.config.get('WebTable', 'Age'),
+            test_automation_instance.config.get('WebTable', 'Salary'),
+            test_automation_instance.config.get('WebTable', 'Department')
+        )
 
-        # test_automation_instance.test_web_table_search(
-        #     test_automation_instance.config.get('SearchWord', 'keyword')
-        # )
+        test_automation_instance.test_web_table_search(
+            test_automation_instance.config.get('SearchWord', 'keyword')
+        )
         
         test_automation_instance.test_web_table_edit_delete(
             test_automation_instance.config.get('WebTable', 'FirstName'),
@@ -379,7 +412,9 @@ if __name__ == "__main__":
             test_automation_instance.config.get('WebTable', 'Department')
         )
 
-        # test_automation_instance.test_web_table_row()
+        test_automation_instance.test_upload_download()
+
+        test_automation_instance.test_web_table_row()
 
 
 
